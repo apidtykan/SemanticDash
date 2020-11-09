@@ -12,8 +12,6 @@ ui <- semanticPage(
   shinyjs::useShinyjs(),
   
   h1(class = "ui header", "Ship Path"),
-  actionButton("browser", "browser"),
-  tags$script("$('#browser').hide();"),
   
   ShipSelctUI(id = "ShipSelect", selectype = ship[, unique(ship_type)]),
 
@@ -24,10 +22,6 @@ ui <- semanticPage(
   )
 
 server <- shinyServer(function(input, output, session) {
-
-  observeEvent(input$browser,{
-    browser()
-  })
   
 # JS function -------------------------------------------------------------
 
@@ -53,7 +47,7 @@ server <- shinyServer(function(input, output, session) {
     validate(need(!is.null(df), "The route with the selected criteria does not exist."))
     
     # Coordinates and Notes
-    metr <- sprintf("%s meters duration %s %s", df[, round(dist, 2)], df$tm, input$un)
+    metr <- sprintf("%s meters duration %s %s", df[, round(dist, 2)], round(df$tm, 2), input$un)
     po <- rbind(df[, .(LAT, LON, Not = sprintf("Route Start %s", metr))], 
                 df[, .(LAT = LAT2, LON = LON2, Not = sprintf("Route Stop %s", metr))])
     
