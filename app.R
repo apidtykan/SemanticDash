@@ -53,7 +53,7 @@ server <- shinyServer(function(input, output, session) {
     validate(need(!is.null(df), "The route with the selected criteria does not exist."))
     
     # Coordinates and Notes
-    metr <- sprintf("%s meters duration %s", df[, round(dist, 2)], df$tm)
+    metr <- sprintf("%s meters duration %s %s", df[, round(dist, 2)], df$tm, input$un)
     po <- rbind(df[, .(LAT, LON, Not = sprintf("Route Start %s", metr))], 
                 df[, .(LAT = LAT2, LON = LON2, Not = sprintf("Route Stop %s", metr))])
     
